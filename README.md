@@ -1,6 +1,6 @@
 # week-3 progress Task-1: Exploratory Data Analysis (EDA) for Car Insurance Claims Dataset
 
-![Build Status](https://github.com/HabibiGirum/Stock_Market_Insights_From_Financial_news/actions/workflows/unittests.yml/badge.svg)
+![Build Status](https://github.com/HabibiGirum/AlphaCare-Insurance-Solutions-data-analytics/actions/workflows/unittests.yml/badge.svg)
 
 ## Overview
 
