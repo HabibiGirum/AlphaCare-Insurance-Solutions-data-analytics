@@ -1,95 +1,91 @@
-# week-3 project 
+# week-3 progress Task-1: Exploratory Data Analysis (EDA) for Car Insurance Claims Dataset
 
+![Build Status](https://github.com/HabibiGirum/Stock_Market_Insights_From_Financial_news/actions/workflows/unittests.yml/badge.svg)
 
-<!-- ![Build Status](https://github.com/HabibiGirum/Stock_Market_Insights_From_Financial_news/actions/workflows/unittests.yml/badge.svg) -->
+## Overview
 
+This project focuses on performing Exploratory Data Analysis (EDA) on a historical insurance claims dataset for AlphaCare Insurance Solutions (ACIS). The aim of this analysis is to help optimize the marketing strategy and identify "low-risk" targets where premiums can be reduced to attract new clients.
 
-<!-- ## Installation and Usage
+## Dataset
+
+The dataset used in this analysis contains historical insurance claim data for car insurance policies. Below is a summary of key columns in the dataset:
+
+- **UnderwrittenCoverID**: Unique identifier for the insurance coverage.
+- **PolicyID**: Unique identifier for the insurance policy.
+- **TransactionMonth**: Date of the transaction (policy start date).
+- **IsVATRegistered**: Whether the policyholder is VAT registered.
+- **Citizenship**: Citizenship status of the policyholder.
+- **LegalType**: The legal type of the policyholder.
+- **Gender**: Gender of the policyholder.
+- **Country**: Country of residence for the policyholder.
+- **PostalCode**: Postal code (Zip code) for the policyholder's address.
+- **TotalPremium**: The total premium paid by the policyholder.
+- **TotalClaims**: The total claims made by the policyholder.
+
+The dataset includes both numerical and categorical features, and the analysis includes methods to explore the relationships between variables and trends over time and geography.
+
+## Installation
+
+To run the code in this repository, follow these steps:
 
 ### Prerequisites
 
-- Python 3.11
-- Git installed
-- A virtual environment tool (e.g., `venv`)
+Make sure you have Python 3.11. You can check your Python version by running:
 
-### Setup Instructions
+```bash
+python --version
+```
 
-1. **Clone the Repository**
+### Clone the Repository
 
-   ```bash
-   git clone https://github.com/HabibiGirum/TellCo-week-2-EDA-Project.git
-   cd TellCo-week-2-EDA-Project
-   ```
+Clone the repository to your local machine:
 
-2. **first Create and Activate Virtual Environment**
+```bash
+git clone https://github.com/HabibiGirum/AlphaCare-Insurance-Solutions-data-analytics.git
+cd AlphaCare-Insurance-Solutions-data-analytics
+```
 
-   ```bash
-  
-   python -m venv env # python 2 version
-   python3 -m venv env # python3 version
-   source venv/bin/activate  # for macOS and linux platforms
-   venv\Scripts\activate # for Windows
-   ```
+### Create a Virtual Environment (Optional but Recommended)
 
-3. **Install Dependencies**
+Create a virtual environment to isolate the project dependencies:
 
-   ```bash
-   pip3 install -r requirements.txt
-   ```
+```bash
+python3 -m venv venv
+```
 
-Here is a structured README format for the dataset used in the project:
+Activate the virtual environment:
 
----
+- On Windows:
+  ```bash
+  .\venv\Scripts\activate
+  ```
+- On macOS/Linux:
+  ```bash
+  source venv/bin/activate
+  ```
 
+### Install Required Packages
 
+Install the necessary packages using `pip`:
 
-## **Dataset Overview**
-This dataset contains session-level data for customers of a telecommunication service provider. It is designed to analyze user engagement and activity patterns across various applications and services. The data is crucial for assessing Quality of Service (QoS) and optimizing resource allocation based on user behavior.
+```bash
+pip install -r requirements.txt
+```
 
----
+### Running the Analysis
 
-## **Column Descriptions**
+Once you have set up the environment and installed the dependencies, you can run the EDA scripts:
 
-| **Column Name**              | **Description**                                                                 |
-|-------------------------------|---------------------------------------------------------------------------------|
-| `MSISDN/Number`                     | Unique identifier for the customer (Mobile Subscriber Integrated Services Digital Network). |
-| `Dur. (ms)`                  | Total duration of user sessions in milliseconds.                                |
-| `Total DL (Bytes)`           | Total download traffic in bytes during the session.                             |
-| `Total UL (Bytes)`           | Total upload traffic in bytes during the session.                               |
-| `bearer id`                  | Number of sessions for the customer during the dataset period.                  |
-| `Social Media DL (Bytes)`    | Download traffic for social media apps (e.g., Facebook, Instagram).             |
-| `Social Media UL (Bytes)`    | Upload traffic for social media apps (e.g., Facebook, Instagram).               |
-| `Youtube DL (Bytes)`         | Download traffic for YouTube application.                                       |
-| `Youtube UL (Bytes)`         | Upload traffic for YouTube application.                                         |
-| `Netflix DL (Bytes)`         | Download traffic for Netflix application.                                       |
-| `Netflix UL (Bytes)`         | Upload traffic for Netflix application.                                         |
-| `Google DL (Bytes)`          | Download traffic for Google services (e.g., Search, Maps).                      |
-| `Google UL (Bytes)`          | Upload traffic for Google services (e.g., Search, Maps).                        |
-| `Email DL (Bytes)`           | Download traffic for email services.                                            |
-| `Email UL (Bytes)`           | Upload traffic for email services.                                              |
-| `Gaming DL (Bytes)`          | Download traffic for gaming applications.                                       |
-| `Gaming UL (Bytes)`          | Upload traffic for gaming applications.                                         |
+```notbooks/analysis.ipynb```
 
----
+## About the Analysis
 
+This repository includes the following steps as part of the EDA:
 
+1. **Data Cleaning**: Handling missing values and converting data types.
+2. **Univariate Analysis**: Visualizing distributions of numerical and categorical variables using histograms, bar charts, and box plots.
+3. **Bivariate Analysis**: Exploring relationships between `TotalPremium` and `TotalClaims`, and other variables, using scatter plots and correlation matrices.
+4. **Geographic Comparison**: Analyzing the distribution of premiums and claims across different geographical locations.
+5. **Outlier Detection**: Identifying and handling outliers in the dataset.
+6. **Trend Analysis**: Examining trends over time, such as premium changes and claim frequencies.
 
-### References
-
-Python Libraries
-
-```pandas``` for data manipulation
-```matplotlib``` and ```seaborn``` for data visualization
-
-
-## Deploy :
-[click me](https://tellco-week-2-eda-project-zbwuw4qlgrrrnmjmj2d9fp.streamlit.app/)
-
-Database screanshot:
-![screanshot table](https://github.com/HabibiGirum/TellCo-week-2-EDA-Project/blob/main/table.png)
-
-## Author  
-GitHub: [HabibiGirum](https://github.com/HabibiGirum)
-
-Email:  habtamugirum478@gmail.com
- -->
