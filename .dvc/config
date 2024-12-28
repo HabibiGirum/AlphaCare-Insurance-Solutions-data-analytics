@@ -1,4 +1,4 @@
 [core]
-    remote = localstorage
-['remote "localstorage"']
-    url = ../dvcData
+    remote = /users/senaiahderom/documents/10academy-kifya/dvcdata/week-3
+['remote "/users/senaiahderom/documents/10academy-kifya/dvcdata/week-3"']
+    url = ../data
