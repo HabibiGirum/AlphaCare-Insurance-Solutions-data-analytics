@@ -1,4 +1,4 @@
-# week-3 progress Task-1: Exploratory Data Analysis (EDA) for Car Insurance Claims Dataset
+# week-3  Exploratory Data Analysis (EDA) for Car Insurance Claims Dataset
 
 ![Build Status](https://github.com/HabibiGirum/AlphaCare-Insurance-Solutions-data-analytics/actions/workflows/unittests.yml/badge.svg)
 
@@ -89,3 +89,11 @@ This repository includes the following steps as part of the EDA:
 5. **Outlier Detection**: Identifying and handling outliers in the dataset.
 6. **Trend Analysis**: Examining trends over time, such as premium changes and claim frequencies.
 
+## Further documentation :
+[click me](https://drive.google.com/file/d/15aGTZZdOCfE5vhIW5yV4cRS2wzHES72a/view?usp=sharing)
+
+
+## Author  
+GitHub: [HabibiGirum](https://github.com/HabibiGirum)
+
+Email:  habtamugirum478@gmail.com
