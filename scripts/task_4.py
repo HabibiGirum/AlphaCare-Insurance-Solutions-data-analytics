@@ -22,78 +22,84 @@ class StatisticalModeling:
         self.models = {}
         self.X_train, self.X_test, self.y_train, self.y_test = None, None, None, None
 
-    def prepare_data(self):
+   
         """
         Prepares the data for modeling by handling missing values, encoding, and splitting.
         """
-        # Step 1: Drop rows with NaN in the target column (TotalPremium)
-        if 'TotalPremium' in self.data.columns:
-            initial_rows = self.data.shape[0]
-            self.data = self.data.dropna(subset=['TotalPremium'])
-            print(f"Dropped {initial_rows - self.data.shape[0]} rows with missing 'TotalPremium'")
-        
-        # Step 2: Handle datetime columns and extract features
-        for column in self.data.select_dtypes(include=['datetime', 'object']):
-            try:
-                self.data[column] = pd.to_datetime(self.data[column], errors='coerce')
-                if pd.api.types.is_datetime64_any_dtype(self.data[column]):
-                    self.data[f'{column}_year'] = self.data[column].dt.year
-                    self.data[f'{column}_month'] = self.data[column].dt.month
-                    self.data[f'{column}_day'] = self.data[column].dt.day
-                    self.data.drop(column, axis=1, inplace=True)
-            except Exception as e:
-                print(f"Error processing column {column}: {e}")
-                self.data.drop(column, axis=1, inplace=True)
-        
-        # Step 3: Handle excessive missing values
-        initial_rows = self.data.shape[0]
-        self.data = self.data.dropna(axis=0, thresh=int(0.7 * self.data.shape[1]))  # Keep rows with at least 70% non-NA
-        print(f"Dropped {initial_rows - self.data.shape[0]} rows with excessive missing values")
+        # Initial data check
+        print("Initial data shape:", self.data.shape)
+        print(self.data.isnull().sum())
 
-        self.data.dropna(inplace=True)  # Drop remaining NaNs
-        
-        if self.data.empty:
-            raise ValueError("No data left after preprocessing. Please check your dataset.")
-        
+        # Step 1: Impute missing values in 'TotalPremium' with the mean
+        if 'TotalPremium' in self.data.columns:
+            mean_value = self.data['TotalPremium'].mean()
+            self.data['TotalPremium'].fillna(mean_value, inplace=True)
+            print(f"Imputed missing 'TotalPremium' values with mean: {mean_value}")
+
+        # Step 2: Impute missing values for numeric columns with their mean
+        numeric_cols = self.data.select_dtypes(include=['float64', 'int64']).columns
+        for col in numeric_cols:
+            if self.data[col].isnull().any():
+                mean_value = self.data[col].mean()
+                self.data[col].fillna(mean_value, inplace=True)
+                print(f"Imputed missing values in '{col}' with mean: {mean_value}")
+
+        # Step 3: Impute missing values for categorical columns with the mode
+        categorical_cols = self.data.select_dtypes(include=['object']).columns
+        for col in categorical_cols:
+            if self.data[col].isnull().any():
+                mode_value = self.data[col].mode()[0] if not self.data[col].mode().empty else None
+                if mode_value is not None:
+                    self.data[col].fillna(mode_value, inplace=True)
+                    print(f"Imputed missing values in '{col}' with mode: {mode_value}")
+
+        # Check for remaining NaNs after imputation
+        if self.data.isnull().sum().sum() > 0:
+            print("Remaining NaN values in the dataset after imputation:")
+            print(self.data.isnull().sum())
+            raise ValueError("NaN values still exist in the dataset after preprocessing.")
+
+        # Continue with feature engineering and data preparation
         # Step 4: Feature Engineering
         if 'RegistrationYear' in self.data.columns:
             self.data['AgeOfVehicle'] = 2024 - self.data['RegistrationYear']
-        
+            print("Added 'AgeOfVehicle' feature.")
+
         # Step 5: One-hot encoding for categorical data
-        data_encoded = pd.get_dummies(self.data, drop_first=True)
-        
-        # Step 6: Drop non-numeric columns
-        non_numeric_columns = data_encoded.select_dtypes(include=['object']).columns
-        if len(non_numeric_columns) > 0:
-            print(f"Warning: Dropping non-numeric columns: {non_numeric_columns}")
-            data_encoded.drop(non_numeric_columns, axis=1, inplace=True)
-        
-        # Step 7: Define Features (X) and Target (y)
+        data_encoded = pd.get_dummies(self.data, columns=['IsVATRegistered', 'Citizenship', 'LegalType', 'Title', 'Language', 
+                                                        'Bank', 'AccountType', 'MaritalStatus', 'Gender', 'Country', 
+                                                        'Province', 'MainCrestaZone', 'SubCrestaZone', 'ItemType', 
+                                                        'VehicleType', 'CoverCategory', 'CoverType', 'CoverGroup', 
+                                                        'Section', 'Product', 'StatutoryClass', 'StatutoryRiskType'], 
+                                    drop_first=True)
+
+        # Step 6: Define Features (X) and Target (y)
         if 'TotalPremium' not in data_encoded.columns:
             raise ValueError("Target variable 'TotalPremium' is missing after preprocessing.")
-        
+
         X = data_encoded.drop(['TotalPremium', 'TotalClaims'], axis=1, errors='ignore')
         y = data_encoded['TotalPremium']
-        
+
         if X.empty or y.empty:
             raise ValueError("No features or target left after preprocessing. Please check the data.")
-        
+
         # Final sanity check
         if X.isnull().sum().sum() > 0 or y.isnull().sum() > 0:
+            print("Remaining NaN values in features or target after preprocessing:")
+            print(X.isnull().sum())
+            print(y.isnull().sum())
             raise ValueError("NaN values still exist in the dataset after preprocessing.")
-        
+
         print(f"Final dataset size: {X.shape[0]} rows, {X.shape[1]} columns")
-        
-        # Step 8: Train-test split (only if enough samples exist)
+
+        # Step 7: Train-test split
         if X.shape[0] < 2:
             raise ValueError("Not enough samples to split into train and test sets.")
-        
+
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(
             X, y, test_size=0.3, random_state=42
         )
         print(f"Train set size: {self.X_train.shape[0]} rows, Test set size: {self.X_test.shape[0]} rows")
-
-
     def build_models(self):
         """
         Builds and fits Linear Regression, Random Forest, and XGBoost models.
@@ -134,9 +140,7 @@ class StatisticalModeling:
             print(f"Model {model_name} not found.")
             return
 
-        explainer = shap.Explainer(model, self.X_test)
+        explainer = shap.Explainer(model, self.X_train)
         shap_values = explainer(self.X_test)
         shap.summary_plot(shap_values, self.X_test)
-
-
 
